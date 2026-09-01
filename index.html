@@ -14,13 +14,15 @@
       <div class="brand">vt</div>
       <p class="tag">Video theatre</p>
     </header>
-    <p class="lead">Pick a house. The player stays vp.</p>
+    <p id="lead" class="lead">Pick a house. The player stays vp.</p>
+    <button id="lobby-back" class="text-back hidden" type="button">← Houses</button>
     <div id="houses" class="houses"></div>
   </div>
 
   <div id="stage-wrap" class="stage-wrap hidden">
     <button id="back" class="back" type="button">← Lobby</button>
     <iframe id="stage" title="Theatre" allow="autoplay; fullscreen"></iframe>
+    <video id="player" class="hidden" controls playsinline></video>
   </div>
 
   <script src="app.js"></script>
