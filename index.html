@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vt</title>
+  <meta name="description" content="Video theatre. Separate from vp.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="lobby" class="lobby">
+    <header class="mast">
+      <div class="brand">vt</div>
+      <p class="tag">Video theatre</p>
+    </header>
+    <p class="lead">Pick a house. The player stays vp.</p>
+    <div id="houses" class="houses"></div>
+  </div>
+
+  <div id="stage-wrap" class="stage-wrap hidden">
+    <button id="back" class="back" type="button">← Lobby</button>
+    <iframe id="stage" title="Theatre" allow="autoplay; fullscreen"></iframe>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

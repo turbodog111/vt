@@ -1,0 +1,120 @@
+:root {
+  --bg: #07070b;
+  --panel: #121218;
+  --line: #2a2a33;
+  --fg: #f3f1ea;
+  --dim: #8d8a82;
+  --gold: #d4b56a;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+.lobby {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 36px 22px 64px;
+}
+
+.mast {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.brand {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--gold);
+}
+
+.tag {
+  margin: 0;
+  color: var(--dim);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.lead {
+  color: var(--dim);
+  margin: 0 0 28px;
+}
+
+.houses {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.house {
+  appearance: none;
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: inherit;
+  border-radius: 10px;
+  padding: 16px 16px 14px;
+  cursor: pointer;
+}
+
+.house:hover,
+.house:focus-visible {
+  border-color: var(--gold);
+  outline: none;
+}
+
+.house .eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.house h2 {
+  margin: 8px 0 4px;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.house .edition {
+  margin: 0;
+  color: var(--dim);
+  font-size: 12px;
+}
+
+.stage-wrap {
+  position: fixed;
+  inset: 0;
+  background: #000;
+}
+
+.hidden { display: none !important; }
+
+.stage-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+
+.back {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 12px;
+  background: rgba(7, 7, 11, 0.72);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
