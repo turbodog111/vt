@@ -2,7 +2,7 @@
 
 Video theatre. Live at https://turbodog111.github.io/vt/
 
-This is not vp. vp stays the music player at https://turbodog111.github.io/vp/. vt is the house: pick a theatre and watch it full-screen. Music theatres still load from vp. Forsaken mp4s are GitHub Release assets (not git history) and play from the Pages lobby.
+This is not vp. vp stays the music player at https://turbodog111.github.io/vp/. vt is the house: pick a theatre and watch it full-screen. Music theatres still load from vp. Character-reel mp4s are GitHub Release assets (not git history) and play from the Pages lobby.
 
 ## Sign-in
 

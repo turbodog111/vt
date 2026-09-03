@@ -1,7 +1,7 @@
 (() => {
   const VP = "https://turbodog111.github.io/vp/demos";
-  const FORSAKEN = "videos/forsaken";
-  const FORSAKEN_MP4 = "https://github.com/turbodog111/vt/releases/download/forsaken";
+  const ROUND = "videos/round";
+  const ROUND_MP4 = "https://github.com/turbodog111/vt/releases/download/round";
 
   const HOUSES = [
     { id: "compass-theater", title: "Compass", by: "Paul Owen Music / Mili", note: "Sky / mirror sea" },
@@ -18,13 +18,13 @@
     { id: "window-view-jp-theater", title: "Window View", by: "Farewell225", note: "Japanese" }
   ];
 
-  const FORSAKEN_HOUSES = [
+  const ROUND_HOUSES = [
     {
-      id: "forsaken-survivors",
-      title: "Forsaken Survivors",
-      by: "Roblox Forsaken",
+      id: "round-twelve",
+      title: "The Twelve",
+      by: "Character reels",
       note: "12 characters · 10+ min each",
-      folder: "survivors",
+      folder: "living",
       roster: [
         ["007n7", "007n7"],
         ["Builderman", "Builderman"],
@@ -41,11 +41,11 @@
       ]
     },
     {
-      id: "forsaken-killers",
-      title: "Forsaken Killers",
-      by: "Roblox Forsaken",
+      id: "round-eight",
+      title: "The Eight",
+      by: "Character reels",
       note: "8 characters · 10+ min each",
-      folder: "killers",
+      folder: "hunt",
       roster: [
         ["1x1x1x1", "1x1x1x1"],
         ["Azure", "Azure"],
@@ -86,10 +86,10 @@
   function renderLobby() {
     view = "lobby";
     activeHouse = null;
-    lead.textContent = "Pick a house. Music theatres still use vp. Forsaken plays mp4s from this repo.";
+    lead.textContent = "Pick a house. Music theatres still use vp. Character reels play from this repo.";
     lobbyBack.classList.add("hidden");
     houses.replaceChildren();
-    for (const house of FORSAKEN_HOUSES) {
+    for (const house of ROUND_HOUSES) {
       houses.appendChild(card(house.by, house.title, house.note, () => renderRoster(house)));
     }
     for (const house of HOUSES) {
@@ -104,7 +104,7 @@
     lobbyBack.classList.remove("hidden");
     houses.replaceChildren();
     for (const [file, title] of house.roster) {
-      houses.appendChild(card(house.title, title, "Gameplay · commentary", () => openMp4(house.folder, file, title)));
+      houses.appendChild(card(house.title, title, "Clip · commentary", () => openMp4(house.folder, file, title)));
     }
   }
 
@@ -126,8 +126,8 @@
     stage.src = "about:blank";
     stage.classList.add("hidden");
     player.querySelectorAll("track").forEach((t) => t.remove());
-    const base = `${FORSAKEN}/${folder}/${stem}`;
-    player.src = `${FORSAKEN_MP4}/${stem}.mp4`;
+    const base = `${ROUND}/${folder}/${stem}`;
+    player.src = `${ROUND_MP4}/${stem}.mp4`;
     const track = document.createElement("track");
     track.kind = "subtitles";
     track.label = "English";
