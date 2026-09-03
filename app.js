@@ -67,9 +67,59 @@
   const player = document.getElementById("player");
   const back = document.getElementById("back");
   const lobbyBack = document.getElementById("lobby-back");
+  const loadClips = document.getElementById("load-clips");
+  const localInput = document.getElementById("local-clips");
+  const clipStatus = document.getElementById("clip-status");
 
   let view = "lobby";
   let activeHouse = null;
+  const localClips = new Map();
+
+  function folderPlay() {
+    return location.protocol === "file:" || location.hostname === "127.0.0.1" || location.hostname === "localhost";
+  }
+
+  function setClipStatus() {
+    if (!clipStatus) return;
+    if (localClips.size) clipStatus.textContent = `${localClips.size} clips on this computer`;
+    else if (folderPlay()) clipStatus.textContent = "Playing from this folder";
+    else clipStatus.textContent = "Use local clips if the network player is blocked";
+  }
+
+  function ingestFile(file) {
+    const name = String(file.name || "").split(/[/\\]/).pop();
+    if (!/\.mp4$/i.test(name)) return;
+    const stem = name.replace(/\.mp4$/i, "");
+    const prev = localClips.get(stem);
+    if (prev) URL.revokeObjectURL(prev);
+    localClips.set(stem, URL.createObjectURL(file));
+  }
+
+  async function ingestDirectory(dir) {
+    for await (const entry of dir.values()) {
+      if (entry.kind === "file" && /\.mp4$/i.test(entry.name)) ingestFile(await entry.getFile());
+      else if (entry.kind === "directory") await ingestDirectory(entry);
+    }
+  }
+
+  async function pickLocalClips() {
+    if (window.showDirectoryPicker) {
+      try {
+        await ingestDirectory(await window.showDirectoryPicker());
+        setClipStatus();
+        return;
+      } catch (err) {
+        if (err && err.name === "AbortError") return;
+      }
+    }
+    localInput.click();
+  }
+
+  function mp4Src(stem) {
+    if (localClips.has(stem)) return localClips.get(stem);
+    if (folderPlay()) return `clips/${stem}.mp4`;
+    return `${ROUND_MP4}/${stem}.mp4`;
+  }
 
   function card(eyebrow, title, note, onClick) {
     const button = document.createElement("button");
@@ -86,7 +136,7 @@
   function renderLobby() {
     view = "lobby";
     activeHouse = null;
-    lead.textContent = "Pick a house. Music theatres still use vp. Character reels play from this repo.";
+    lead.textContent = "Pick a house. Music theatres still use vp. Character reels play locally once clips are loaded.";
     lobbyBack.classList.add("hidden");
     houses.replaceChildren();
     for (const house of ROUND_HOUSES) {
@@ -127,15 +177,17 @@
     stage.classList.add("hidden");
     player.querySelectorAll("track").forEach((t) => t.remove());
     const base = `${ROUND}/${folder}/${stem}`;
-    player.src = `${ROUND_MP4}/${stem}.mp4`;
+    player.src = mp4Src(stem);
     const track = document.createElement("track");
     track.kind = "subtitles";
     track.label = "English";
     track.srclang = "en";
-    track.src = `${base}.en.vtt`;
+    track.src = folderPlay() ? `captions/${folder}/${stem}.en.vtt` : `${base}.en.vtt`;
     player.appendChild(track);
     player.classList.remove("hidden");
-    player.play().catch(() => {});
+    player.play().catch(() => {
+      if (!localClips.has(stem) && !folderPlay()) pickLocalClips();
+    });
     lobby.classList.add("hidden");
     wrap.classList.remove("hidden");
     back.textContent = `← ${title}`;
@@ -164,6 +216,11 @@
     closeStage();
   });
   lobbyBack.addEventListener("click", renderLobby);
+  loadClips.addEventListener("click", pickLocalClips);
+  localInput.addEventListener("change", () => {
+    for (const file of localInput.files || []) ingestFile(file);
+    setClipStatus();
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
@@ -172,4 +229,5 @@
   });
 
   renderLobby();
+  setClipStatus();
 })();
